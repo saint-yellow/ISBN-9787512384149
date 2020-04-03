@@ -1,0 +1,35 @@
+﻿@using WindowsOnly.Models.ViewModels
+
+@{ 
+    CommodityItemViewModel commodityItem = new CommodityItemViewModel();
+}
+
+<template id="commodity-item-form">
+    <form class="center-block" data-bind="submit: upsertCommodityItem">
+        <div class="form-group">
+            @Html.LabelFor(m => commodityItem.Quantity)
+            <div class="input-group form-group-sm">
+                <div class="col-sm-8">
+                    @Html.TextBoxFor(m => commodityItem.Quantity, new { data_bind = "textInput: commodityItem.quantity", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => commodityItem.Quantity, "", new { @class = "text-danger" })
+                </div>
+                <button class="btn btn-primary" data-bind="click: changeQuantity(1)">Add quantity</button>
+                <button class="btn btn-primary" data-bind="click: changeQuantity(-1)">Reduce quantity</button>
+            </div>
+        </div>
+        <div class="form-group" data-bind="isDirty: commodityItem.quantity">
+            <button type="submit" class="btn btn-primary btn-sm" data-bind="visible: !sending(), text: commodityItem.id === undefined ? 'Add to shopping cart' : 'Update in shopping cart'"></button>
+        </div>
+    </form>
+
+    <div class="progress" data-bind="visible: sending">
+        <div class="progress-bar progress-bar-info progress-bar-striped active"
+             role="progressbar"
+             aria-valuenow="100"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             style="width: 100%">
+            <span class="sr-only"></span>
+        </div>
+    </div> 
+</template>

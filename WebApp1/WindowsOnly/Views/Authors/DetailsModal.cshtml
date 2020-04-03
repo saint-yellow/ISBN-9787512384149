@@ -1,0 +1,62 @@
+﻿@model WindowsOnly.ViewModels.AuthorViewModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+
+<div class="modal fade" id="details-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"></span>
+                </button>
+                <h4 class="modal-title">Details of the Author</h4>
+            </div>
+            <div class="modal-body">
+                <h3 class="text-center">@string.Format($"{Model.FirstName} {Model.LastName}")</h3>
+                <div>
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <dt>
+                            @Html.DisplayNameFor(model => model.FirstName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.FirstName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.LastName)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.LastName)
+                        </dd>
+
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Biography)
+                        </dt>
+
+                        <dd>
+                            @Html.DisplayFor(model => model.Biography)
+                        </dd>
+
+                    </dl>
+                </div>
+                <div class="modal-footer">
+                    <div class="form-actions no-color text-center">
+                        <a data-bind="attr: { href: '@Url.Action("Edit")/' + @Model.Id }" class="btn btn-primary">
+                            Edit
+                        </a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

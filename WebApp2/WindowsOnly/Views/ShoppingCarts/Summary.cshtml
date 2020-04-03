@@ -1,0 +1,40 @@
+﻿@using WindowsOnly.Extensions;
+
+@model WindowsOnly.Models.ViewModels.ShoppingCartViewModel
+
+<div style="margin: 12px;">
+    <a id="shopping-cart" href="#" data-bind="click: showShoppingCart">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+        <span class="badge" data-bind="text: shoppingCart.commodityItems().length">
+            @Model.CommodityItems.Count()
+        </span>
+    </a>
+</div>
+
+<div id="shopping-cart-summary" style="display: none;">
+    <span data-bind="if: shoppingCart.commodityItems().length == 0">
+        You currently have no items in your shopping cart.
+    </span>
+    <div data-bind="if: shoppingCart.commodityItems().length > 0">
+        <hr />
+        <ul data-bind="foreach: shoppingCart.commodityItems()">
+            <li>
+                <p data-bind="text: book.title"></p>
+                <p>$<span data-bind="text: book.salePrice"></span> x <span data-bind="text: quantity"></span></p>
+            </li>
+        </ul>
+        <p><strong>Total:</strong> $<span data-bind="text: shoppingCart.totalPrice"></span></p>
+        <br />
+        <div>
+            <a class="btn btn-primary" href="@Url.Action("Index", "ShoppingCarts")">View Shopping Cart Details</a>
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+    var shoppingCartSummaryData = @Html.HtmlConvertToJson(Model);
+</script>
+

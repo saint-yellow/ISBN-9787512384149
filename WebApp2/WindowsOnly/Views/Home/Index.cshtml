@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Shopping Cart Web Application</h1>
+    <p class="lead">
+        Shop for your favorite books, we have got the best prices.
+    </p>
+    <p>
+        <a href="@Url.Action("About")" class="btn btn-primary btn-lg">
+            Learn more &raquo;
+        </a>
+    </p>
+</div>
+
+@Html.Action("Featured", "Books")

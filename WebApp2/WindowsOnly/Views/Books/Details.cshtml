@@ -1,0 +1,45 @@
+﻿@using WindowsOnly.Extensions;
+
+@model WindowsOnly.Models.ViewModels.BookViewModel
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<div>
+    <h1>@Model.Title</h1>
+    
+    <div id="book-details" class="row">
+        <div class="col-md-2">
+            <img src="@Model.ImageUrl" alt="@Model.Title" title="@Model.Title" class="img-rounded" />
+        </div>
+        <div class="col-md-5 col-md-offset-1">
+            <h3>@Model.Author.FullName</h3>
+            <p>Your price: $@Model.SalePrice</p>
+            <p>List price: <span style="text-decoration: line-through">$@Model.ListPrice</span></p>
+            <p class="label label-success">Save @Model.SavePercantage%</p>
+            <p>@Model.Description</p>
+        </div>
+        <div class="col-md-2 col-md-offset-2 bg-info">
+            <upsert-commodity-item params="commodityItem: commodityItem, showButton: true">
+            </upsert-commodity-item>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_CommodityItemForm")
+
+
+@section Scripts {
+    @Scripts.Render(
+        "~/Scripts/ViewModels/BookDetailsViewModel.js",
+        "~/Scripts/ViewModels/CommodityItemViewModel.js"
+    )
+
+    <script>
+        var model = @Html.HtmlConvertToJson(Model);
+
+        var bookDetailsViewModel = new BookDetailsViewModel(model);
+        ko.applyBindings(bookDetailsViewModel, document.getElementById("book-details"));
+    </script>    
+}

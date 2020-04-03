@@ -1,0 +1,73 @@
+﻿@using WindowsOnly.Extensions
+
+@model WindowsOnly.Models.ViewModels.ShoppingCartViewModel
+
+@{
+    ViewBag.Title = "Shopping Cart Details";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div id="shopping-cart-details">
+    <table class="table table-bordered table-over table-striped" style="display: none" data-bind="visible: shoppingCart.commodityItems().length > 0">
+        <tr>
+            <th>Book</th>
+            <th>Uni Price</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>&nbsp;</th>
+        </tr>
+        <tr data-bind="foreach: shoppingCart.commodityItems()">
+            <td>
+                <a href="@Url.Action("Details", "Books")" data-bind="appendToHref: book.id, text: book.title"></a>
+            </td>
+            <td data-bind="text: '$' + book.salePrice"></td>
+            <td>
+                <upsert-commodity-item params="commodityItem: $data, showButton: false"></upsert-commodity-item>
+            </td>
+            <td data-bind="text: '$' + quantity.subTotalPrice()"></td>
+            <td>
+                <button type="button" class="btn btn-danger" data-bind="click: $parent.deleteCommodityItem, visible: !$parent.sending()">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <div class="progress" data-bind="visible: sending">
+        <div class="progress-bar progress-bar-info progress-bar-striped active"
+             role="progressbar"
+             aria-valuenow="100"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             style="width: 100%">
+            <span class="sr-only"></span>
+        </div>
+    </div>
+
+    <div class="alert alert-warning" style="display: none" data-bind="if: shoppingCart.commodityItems().length == 0">
+        You shopping cart is currently empty.
+        <a href="@Url.Action("Index", "Home")">Continue shopping</a>.
+    </div>
+
+    <h3>Total: $<span data-bind="text: shoppingCart.totalPrice"></span></h3>
+</div>
+
+@Html.Partial("_CommodityItemForm")
+
+@section Scripts {
+    @Scripts.Render(
+        "~/Scripts/ViewModels/ShoppingCartDetailsViewModel.js",
+        "~/Scripts/ViewModels/CommodityItemViewModel.js"
+    )
+
+    <script>
+        var model = @Html.HtmlConvertToJson(Model);
+
+        var shoppingCartDetailsViewModel = new ShoppingCartDetailsViewModel(model);
+
+        ko.applyBindings(shoppingCartDetailsViewModel, document.getElementById('shopping-cart-details'));
+    </script>
+    
+}
+
